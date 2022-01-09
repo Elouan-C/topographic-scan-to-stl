@@ -123,9 +123,10 @@ def update_info(centre=False):
 
             y_max -= y_min
             y_min = 0
-        
+
+        #https://stackoverflow.com/questions/5180365/python-add-comma-into-number-string
         info.set(''.join(['infos:\n',
-                      str(int(n_points)),' points\n',
+                      str(str("{:,}".format(int(n_points)))),' points\n',
                       str(round(x_min,3)),' < X < ',str(round(x_max,3)),'    Δ=',str(round(x_max - x_min,3)),'\n',
                       str(round(y_min,3)),' < Y < ',str(round(y_max,3)),'    Δ=',str(round(y_max - y_min,3)),'\n',
                       str(round(z_min,3)),' < Z < ',str(round(z_max,3)),'    Δ=',str(round(z_max - z_min,3))]))
