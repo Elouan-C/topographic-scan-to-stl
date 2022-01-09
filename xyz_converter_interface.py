@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter.tix import *
-from Convertor_library1_2 import *
+from Convertor_library import *
 import time
 
 def is_numeric(s):  #https://stackoverflow.com/questions/354038/how-do-i-check-if-a-string-is-a-number-float
@@ -1067,7 +1067,7 @@ label12_preview = Label(leftframe, textvariable = preview_n_input )
 
 name_ent = Entry(leftframe, width =70)
 #name_ent.insert(0,'nom_fichier.xyz')
-name_ent.insert(0,'C:/Users/eloua/OneDrive/Documents/projet/xyz to stl/bertheaum.xyz.txt')
+name_ent.insert(0,'C:/Users/eloua/OneDrive/Documents/projet/xyz to stl/Github/bertheaum.xyz')
 name_ent.pack(padx = 10, pady = 5)
 name_ent.place(x=10,y=25)
 
