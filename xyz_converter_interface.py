@@ -829,7 +829,7 @@ def convert(preview=False , n_points_preview = 0):
         else:
             resiz , xy_points = simple_resize( xi, xa, yi, ya, [x_list,y_list,z_list] )
             print('simple_resize')
-        print('\nresiz:',resiz)
+        #print('\nresiz:',resiz)
         x_list = resiz[0]
         y_list = resiz[1]
         z_list = resiz[2]

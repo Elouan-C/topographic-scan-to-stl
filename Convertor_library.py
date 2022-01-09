@@ -1601,7 +1601,7 @@ def visualaze_point_cloud6(points,  Tstart=time.time()):
     import matplotlib.pyplot as plt
     import numpy.ma as ma
     from numpy.random import uniform, seed
-    plt.figure()
+    fig, axs = plt.subplots()
     
 
     
@@ -1641,6 +1641,7 @@ def visualaze_point_cloud6(points,  Tstart=time.time()):
     #plt.scatter(x,y,marker='o',c='b',s=5)
     plt.xlim(xmi,xma)
     plt.ylim(ymi,yma)
+    axs.set_aspect('equal', 'box')
     plt.title('preview (%d points)' % npts)
 
     print("\nit took %4.2f sec to show the preview\n" %(time.time()-t1) )
