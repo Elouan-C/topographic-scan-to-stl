@@ -1,0 +1,15 @@
+centre_on_0 0
+z_min -25.0
+z_max 100.0
+z_high_tide 4.0
+land_exa 2.0
+water_exa 5.0
+scale 20.0
+alpha 30.0
+lower_resolution 0
+resolution 1
+flaten_edges True
+put_base 1
+tab 10.0
+play 0.2
+n_preview 90000
