@@ -549,6 +549,7 @@ def save_settings_button():
     z_max = float(za_ent.get())
     α = float(alpha_ent.get())
     high_tide = float(z_high_tide_ent.get())
+    low_tide = float(z_low_tide_ent.get())
     sea_exa = float(water_exa_ent.get())
     land_exa = float(land_exa_ent.get())
     play = float(play_ent.get())
@@ -559,6 +560,7 @@ def save_settings_button():
     settings['z_max'] = str(z_max)
     settings['alpha'] = str(α)
     settings['z_high_tide'] = str(high_tide)
+    settings['z_low_tide'] = str(low_tide)
     settings['water_exa'] = str(sea_exa)
     settings['land_exa'] = str(land_exa)
     settings['play'] = str(play)
@@ -594,6 +596,7 @@ def convert(preview=False , n_points_preview = 0):
     file_name_xyz = name_ent.get()
     stl_file = export_file_ent.get()
     high_tide = float(z_high_tide_ent.get())
+    low_tide = float(z_low_tide_ent.get())
     sea_exa = float(water_exa_ent.get())
     land_exa = float(land_exa_ent.get())
     play = float(play_ent.get())
@@ -864,10 +867,10 @@ def convert(preview=False , n_points_preview = 0):
     if preview==True:
         points = np.transpose( np.array( [np.array(x_list) , np.array(y_list) , np.array(z_list)] ) )
         print( "\nxmin:", np.min( points[:,0] ))
-        visualaze_point_cloud6(points , Tstart=Tstart)
+        tide_points = visualaze_point_cloud6(points , low_tide , high_tide , Tstart=Tstart) #visualize the file
         return None
     
-    
+
     p_centre = [ (x_max+x_min)/2 , (y_max+y_min)/2 , zi ]
 
     print('\ncreating α shape triangle mesh from points with α =',α)
@@ -1092,6 +1095,9 @@ za_ent.insert(0,settings['z_max'])
 
 z_high_tide_ent = Entry(leftframe, width =3)
 z_high_tide_ent.insert(0 , settings['z_high_tide'])
+
+z_low_tide_ent = Entry(leftframe, width =3)
+z_low_tide_ent.insert(0 , settings['z_high_tide'])
 
 land_exa_ent = Entry(leftframe, width =3)
 land_exa_ent.insert(0 , settings['land_exa'])

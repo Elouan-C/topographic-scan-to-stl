@@ -1593,7 +1593,7 @@ def visualaze_point_cloud5(x_list,y_list,z_list, n_max=500000 ,  Tstart=time.tim
     print("\nit took %4.2f sec to show the preview\n" %(time.time()-t1) )
     plt.show()
 
-def visualaze_point_cloud6(points,  Tstart=time.time()):  
+def visualaze_point_cloud6(points, z_low,z_high,  Tstart=time.time() , show=True):  
     #https://scipy-cookbook.readthedocs.io/items/Matplotlib_Gridding_irregularly_spaced_data.html
     t1 = Tstart
     import numpy as np
@@ -1634,7 +1634,12 @@ def visualaze_point_cloud6(points,  Tstart=time.time()):
     zi = griddata((x, y), z, (xi[None,:], yi[:,None]), method='nearest') #not the prettyest but it shouldn't interpolate points that are at -40m in a -5m zone, completly changing the deph scale
     # contour the gridded data, plotting dots at the randomly spaced data points.
     CS = plt.contour(xi,yi,zi,n_lines,linewidths=0.5,colors='k')
-    CS = plt.contour(xi,yi,zi,[-4,2],linewidths=1,colors='k')
+    CS = plt.contour(xi,yi,zi,[z_low,z_high],linewidths=1,colors='k') #high and low tide
+
+    p1 = CS.collections[0].get_paths()[0] #https://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
+    p1 = CS.collections[0].get_paths()[1]
+    v = np.array( [np.array(p1.vertices) , np.array(p1.vertices)])
+
     CS = plt.contourf(xi,yi,zi,n_lines,cmap=plt.cm.jet)
     plt.colorbar() # draw colorbar
     # plot data points.
@@ -1644,8 +1649,10 @@ def visualaze_point_cloud6(points,  Tstart=time.time()):
     axs.set_aspect('equal', 'box')
     plt.title('preview (%d points)' % npts)
 
-    print("\nit took %4.2f sec to show the preview\n" %(time.time()-t1) )
-    plt.show()
+    if show==True:
+        print("\nit took %4.2f sec to show the preview\n" %(time.time()-t1) )
+        plt.show()
+    return(v) #points on low and high tide lines
 
 def visualaze_point_cloud7(points,  Tstart=time.time()):  
     #https://scipy-cookbook.readthedocs.io/items/Matplotlib_Gridding_irregularly_spaced_data.html
@@ -1700,6 +1707,7 @@ def get_settings():
 z_min -25
 z_max 100
 z_high_tide 4
+z_low_tide -2
 land_exa 2
 water_exa 5
 scale 20
