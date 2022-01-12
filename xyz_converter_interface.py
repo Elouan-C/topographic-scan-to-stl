@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.tix import *
+from tkinter.filedialog import *
 from Convertor_library import *
 import time
 
@@ -25,6 +26,9 @@ def extracte_info():
     text_file = open(nom_fichier, "r")
     lines = text_file.read().split('\n')
     text_file.close()
+
+    print(len(lines))
+    print(lines[:3])
     
 
     x_list=[]
@@ -542,6 +546,13 @@ def show_preview():
     print("preview")
     convert(preview=True , n_points_preview = 10000)
 
+def search_file_button():
+    #https://python.doctor/page-tkinter-interface-graphique-python-tutoriel
+    filepath = askopenfilename(title="open .xyz file",filetypes=[('xyz files','.xyz'),('all files','.*')])
+    name_ent.delete(0, 'end')
+    name_ent.insert(0,filepath)
+
+
 def save_settings_button():
     global settings
 
@@ -619,6 +630,7 @@ def convert(preview=False , n_points_preview = 0):
     print('file_name_xyz: ',file_name_xyz)
     print('stl_file: ',stl_file)
     print('high_tide: ',high_tide)
+    print('low_tide: ',low_tide)
     print('sea_exa: ',sea_exa)
     print('land_exa: ',land_exa)
     print('play: ',play)
@@ -867,7 +879,7 @@ def convert(preview=False , n_points_preview = 0):
     if preview==True:
         points = np.transpose( np.array( [np.array(x_list) , np.array(y_list) , np.array(z_list)] ) )
         print( "\nxmin:", np.min( points[:,0] ))
-        tide_points = visualaze_point_cloud6(points , low_tide , high_tide , Tstart=Tstart) #visualize the file
+        visualaze_point_cloud6(points , low_tide , high_tide , Tstart=Tstart)
         return None
     
 
@@ -944,7 +956,7 @@ settings = get_settings()
 lines = [] #global variable containig the data 
 
 height = 700
-width = 490
+width = 530
 size = 'x'.join([str(width),str(height)])
 
 root = Tk()
@@ -991,13 +1003,13 @@ N.set('n')
 
 
 spacer1 = StringVar()
-spacer1.set(''.join([ '.' , ''.join( ['   ']*50 ) , '.' ]))
-label0_0 = Label(leftframe, textvariable = spacer1, width = 70 )
+spacer1.set(''.join([ '.' , ''.join( ['   ']*55 ) , '.' ]))
+label0_0 = Label(leftframe, textvariable = spacer1, width = 72 )
 label0_0.pack()
 
 spacer2 = StringVar()
 spacer2.set(''.join([ '*' , ''.join( ['\n']*26 ) , '*' ]))
-label0_1 = Label(leftframe, textvariable = spacer2, width = 70 )
+label0_1 = Label(leftframe, textvariable = spacer2, width = 72 )
 label0_1.pack()
 
 
@@ -1097,7 +1109,7 @@ z_high_tide_ent = Entry(leftframe, width =3)
 z_high_tide_ent.insert(0 , settings['z_high_tide'])
 
 z_low_tide_ent = Entry(leftframe, width =3)
-z_low_tide_ent.insert(0 , settings['z_high_tide'])
+z_low_tide_ent.insert(0 , settings['z_low_tide'])
 
 land_exa_ent = Entry(leftframe, width =3)
 land_exa_ent.insert(0 , settings['land_exa'])
@@ -1151,7 +1163,7 @@ n_preview_ent.insert(0 , int(settings['n_preview']) )
 #=========================================================================================================================#
 Button_deb = Button(leftframe, text = "Open", command = extracte_info)
 Button_deb.pack(padx = 5, pady = 5)
-Button_deb.place(bordermode=OUTSIDE,x=443,y=22)
+Button_deb.place(bordermode=OUTSIDE,x=470,y=22)
 
 Button_convert = Button(leftframe, text = "Convert", command = convert)
 Button_convert.pack(padx = 5, pady = 5)
@@ -1170,6 +1182,12 @@ Button_preview.config(state = DISABLED)
 Button_save_settings = Button(leftframe, text = "save settings", command = save_settings_button)
 #Button_save_settings.pack(padx = 5, pady = 5)
 #Button_save_settings.place(bordermode=OUTSIDE,x=185,y=185)
+
+#https://pythonguides.com/python-tkinter-button/
+img = PhotoImage(file='assets/open_folder.png')
+Button_open_file = Button(leftframe, image = img , command = search_file_button)# , borderwidth = 0)
+Button_open_file.pack(padx = 5, pady = 5)
+Button_open_file.place(bordermode=OUTSIDE,x=435,y=20)
 #=========================================================================================================================#
 #       CHECKBUTTON       CHECKBUTTON       CHECKBUTTON       CHECKBUTTON       CHECKBUTTON       CHECKBUTTON             #
 #=========================================================================================================================#

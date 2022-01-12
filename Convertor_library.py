@@ -1624,7 +1624,7 @@ def visualaze_point_cloud6(points, z_low,z_high,  Tstart=time.time() , show=True
     
     step = 1 #meters
     n_lines = int( (zma-zmi)/step )
-
+    print([z_low,z_high])
     
     # define grid.
     xi = np.linspace(xmi,xma,size)
@@ -1634,11 +1634,12 @@ def visualaze_point_cloud6(points, z_low,z_high,  Tstart=time.time() , show=True
     zi = griddata((x, y), z, (xi[None,:], yi[:,None]), method='nearest') #not the prettyest but it shouldn't interpolate points that are at -40m in a -5m zone, completly changing the deph scale
     # contour the gridded data, plotting dots at the randomly spaced data points.
     CS = plt.contour(xi,yi,zi,n_lines,linewidths=0.5,colors='k')
-    CS = plt.contour(xi,yi,zi,[z_low,z_high],linewidths=1,colors='k') #high and low tide
+    if zmi <= z_low and z_high <= zma:
+        CS = plt.contour(xi,yi,zi,[z_low,z_high],linewidths=1,colors='k') #high and low tide
 
-    p1 = CS.collections[0].get_paths()[0] #https://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
-    p1 = CS.collections[0].get_paths()[1]
-    v = np.array( [np.array(p1.vertices) , np.array(p1.vertices)])
+        p1 = CS.collections[0].get_paths()[0] #https://stackoverflow.com/questions/5666056/matplotlib-extracting-data-from-contour-lines
+        p2 = CS.collections[0].get_paths()[1]
+        v = np.array( [np.array(p1.vertices) , np.array(p2.vertices)])
 
     CS = plt.contourf(xi,yi,zi,n_lines,cmap=plt.cm.jet)
     plt.colorbar() # draw colorbar
@@ -1652,7 +1653,9 @@ def visualaze_point_cloud6(points, z_low,z_high,  Tstart=time.time() , show=True
     if show==True:
         print("\nit took %4.2f sec to show the preview\n" %(time.time()-t1) )
         plt.show()
-    return(v) #points on low and high tide lines
+
+    if zmi <= z_low and z_high <= zma:
+        return(v) #points on low and high tide lines
 
 def visualaze_point_cloud7(points,  Tstart=time.time()):  
     #https://scipy-cookbook.readthedocs.io/items/Matplotlib_Gridding_irregularly_spaced_data.html
